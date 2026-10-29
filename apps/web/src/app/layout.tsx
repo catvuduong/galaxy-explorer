@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "galaxy-explorer",
-  description: "galaxy-explorer",
+  title: "Galaxy Explorer",
+  description: "An immersive 3D spiral galaxy you can fly through.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
