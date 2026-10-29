@@ -1,0 +1,333 @@
+.root {
+  --ink: #ece9f7;
+  --muted: #9b97b3;
+  --line: rgba(255, 255, 255, 0.1);
+  --glass: rgba(12, 10, 24, 0.55);
+  --accent: #ffb36b;
+
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 50% 45%, #1a1030 0%, #07050f 55%, #03020a 100%);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* The canvas fades in once the first frames have rendered (see data-ready). */
+.stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2.2s ease-out;
+}
+
+.stageReady {
+  opacity: 1;
+}
+
+.title {
+  position: absolute;
+  top: clamp(24px, 6vh, 64px);
+  left: clamp(20px, 4vw, 56px);
+  max-width: min(560px, calc(100vw - 40px));
+  pointer-events: none;
+  animation: rise 1.6s ease-out 0.5s both;
+}
+
+.kicker {
+  margin-bottom: 14px;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title h1 {
+  font-size: clamp(40px, 6vw, 76px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, #fff 10%, #ffd1a1 40%, #b9a4ff 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  margin-top: 18px;
+  max-width: 44ch;
+  font-size: clamp(14px, 1.4vw, 16px);
+  line-height: 1.6;
+  color: var(--muted);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
+}
+
+.panel {
+  position: absolute;
+  top: clamp(16px, 3vh, 32px);
+  right: clamp(16px, 3vw, 32px);
+  width: min(260px, calc(100vw - 32px));
+  animation: rise 1.2s ease-out 1s both;
+}
+
+.panelToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.panelToggle span {
+  font-size: 18px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.panelBody {
+  margin-top: 10px;
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  font-size: 13px;
+}
+
+.control {
+  display: grid;
+  gap: 8px;
+}
+
+.controlLabel {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+}
+
+.controlLabel output,
+.controlRow output {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.controlRow input[type="range"] {
+  flex: 1;
+}
+
+.control input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.control input[type="checkbox"] {
+  width: 36px;
+  height: 20px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.swatch {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.swatch input[type="color"] {
+  width: 44px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.reset {
+  justify-self: stretch;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.reset:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Planet labels sit over the canvas and are moved each frame by PlanetLabels. */
+.labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.planetLabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(8, 6, 18, 0.6);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.planetLabel:hover,
+.planetLabel:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.card {
+  position: absolute;
+  left: clamp(16px, 3vw, 32px);
+  bottom: clamp(16px, 4vh, 40px);
+  width: min(360px, calc(100vw - 32px));
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  animation: rise 0.6s ease-out both;
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cardDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.cardClose {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  font: inherit;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cardClose:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Phones: title shrinks, the panel and card stack along the bottom. */
+@media (max-width: 720px) {
+  .title {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+  }
+
+  .title h1 {
+    font-size: 40px;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .panel {
+    top: auto;
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+  }
+
+  .card {
+    left: 16px;
+    right: 16px;
+    bottom: 96px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title,
+  .panel,
+  .card {
+    animation: none;
+  }
+
+  .stage {
+    transition: none;
+  }
+}
